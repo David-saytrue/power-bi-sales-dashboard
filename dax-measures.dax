@@ -1,21 +1,21 @@
-// Paste ONE measure at a time: Data → Продажи → New measure.
-// Names differ from column names (Power BI rule).
+// Paste one measure at a time: Data → Sales → New measure.
+// Measure names must differ from column names (Power BI rule).
 
-Сумма выручки = SUM('Продажи'[Выручка])
+Total Revenue = SUM('Sales'[Revenue])
 
-Сумма прибыли = SUM('Продажи'[Прибыль])
+Total Profit = SUM('Sales'[Profit])
 
-Затраты на логистику = SUM('Продажи'[Стоимость доставки])
+Logistics Cost = SUM('Sales'[ShippingCost])
 
-Рентабельность = DIVIDE([Сумма прибыли], [Сумма выручки], 0)
+Profitability = DIVIDE([Total Profit], [Total Revenue], 0)
 // After create: Measure tools → Format → Percentage
 
-АКБ = DISTINCTCOUNT('Продажи'[Покупатель])
+Active Customers = DISTINCTCOUNT('Sales'[Customer])
 
-Средний чек = DIVIDE([Сумма выручки], DISTINCTCOUNT('Продажи'[Order_ID]), 0)
+Avg Order Value = DIVIDE([Total Revenue], DISTINCTCOUNT('Sales'[Order_ID]), 0)
 
-Заказы убыт =
+Loss Making Orders =
 CALCULATE(
-    DISTINCTCOUNT('Продажи'[Order_ID]),
-    'Продажи'[Прибыль] < 0
+    DISTINCTCOUNT('Sales'[Order_ID]),
+    'Sales'[Profit] < 0
 )

@@ -1,47 +1,47 @@
 // Tabular Editor 3 — C# Script → paste all → F5
 
-var t = Model.Tables["Продажи"];
+var t = Model.Tables["Sales"];
 
-if (!t.Measures.Contains("Сумма выручки"))
-    t.AddMeasure("Сумма выручки", "SUM('Продажи'[Выручка])");
+if (!t.Measures.Contains("Total Revenue"))
+    t.AddMeasure("Total Revenue", "SUM('Sales'[Revenue])");
 else
-    t.Measures["Сумма выручки"].Expression = "SUM('Продажи'[Выручка])";
-t.Measures["Сумма выручки"].FormatString = "#,0.00";
+    t.Measures["Total Revenue"].Expression = "SUM('Sales'[Revenue])";
+t.Measures["Total Revenue"].FormatString = "#,0.00";
 
-if (!t.Measures.Contains("Сумма прибыли"))
-    t.AddMeasure("Сумма прибыли", "SUM('Продажи'[Прибыль])");
+if (!t.Measures.Contains("Total Profit"))
+    t.AddMeasure("Total Profit", "SUM('Sales'[Profit])");
 else
-    t.Measures["Сумма прибыли"].Expression = "SUM('Продажи'[Прибыль])";
-t.Measures["Сумма прибыли"].FormatString = "#,0.00";
+    t.Measures["Total Profit"].Expression = "SUM('Sales'[Profit])";
+t.Measures["Total Profit"].FormatString = "#,0.00";
 
-if (!t.Measures.Contains("Затраты на логистику"))
-    t.AddMeasure("Затраты на логистику", "SUM('Продажи'[Стоимость доставки])");
+if (!t.Measures.Contains("Logistics Cost"))
+    t.AddMeasure("Logistics Cost", "SUM('Sales'[ShippingCost])");
 else
-    t.Measures["Затраты на логистику"].Expression = "SUM('Продажи'[Стоимость доставки])";
-t.Measures["Затраты на логистику"].FormatString = "#,0.00";
+    t.Measures["Logistics Cost"].Expression = "SUM('Sales'[ShippingCost])";
+t.Measures["Logistics Cost"].FormatString = "#,0.00";
 
-if (!t.Measures.Contains("Рентабельность"))
-    t.AddMeasure("Рентабельность", "DIVIDE([Сумма прибыли], [Сумма выручки], 0)");
+if (!t.Measures.Contains("Profitability"))
+    t.AddMeasure("Profitability", "DIVIDE([Total Profit], [Total Revenue], 0)");
 else
-    t.Measures["Рентабельность"].Expression = "DIVIDE([Сумма прибыли], [Сумма выручки], 0)";
-t.Measures["Рентабельность"].FormatString = "0.00%";
+    t.Measures["Profitability"].Expression = "DIVIDE([Total Profit], [Total Revenue], 0)";
+t.Measures["Profitability"].FormatString = "0.00%";
 
-if (!t.Measures.Contains("АКБ"))
-    t.AddMeasure("АКБ", "DISTINCTCOUNT('Продажи'[Покупатель])");
+if (!t.Measures.Contains("Active Customers"))
+    t.AddMeasure("Active Customers", "DISTINCTCOUNT('Sales'[Customer])");
 else
-    t.Measures["АКБ"].Expression = "DISTINCTCOUNT('Продажи'[Покупатель])";
-t.Measures["АКБ"].FormatString = "#,0";
+    t.Measures["Active Customers"].Expression = "DISTINCTCOUNT('Sales'[Customer])";
+t.Measures["Active Customers"].FormatString = "#,0";
 
-if (!t.Measures.Contains("Средний чек"))
-    t.AddMeasure("Средний чек", "DIVIDE([Сумма выручки], DISTINCTCOUNT('Продажи'[Order_ID]), 0)");
+if (!t.Measures.Contains("Avg Order Value"))
+    t.AddMeasure("Avg Order Value", "DIVIDE([Total Revenue], DISTINCTCOUNT('Sales'[Order_ID]), 0)");
 else
-    t.Measures["Средний чек"].Expression = "DIVIDE([Сумма выручки], DISTINCTCOUNT('Продажи'[Order_ID]), 0)";
-t.Measures["Средний чек"].FormatString = "#,0.00";
+    t.Measures["Avg Order Value"].Expression = "DIVIDE([Total Revenue], DISTINCTCOUNT('Sales'[Order_ID]), 0)";
+t.Measures["Avg Order Value"].FormatString = "#,0.00";
 
-if (!t.Measures.Contains("Заказы убыт"))
-    t.AddMeasure("Заказы убыт", "CALCULATE(DISTINCTCOUNT('Продажи'[Order_ID]), 'Продажи'[Прибыль] < 0)");
+if (!t.Measures.Contains("Loss Making Orders"))
+    t.AddMeasure("Loss Making Orders", "CALCULATE(DISTINCTCOUNT('Sales'[Order_ID]), 'Sales'[Profit] < 0)");
 else
-    t.Measures["Заказы убыт"].Expression = "CALCULATE(DISTINCTCOUNT('Продажи'[Order_ID]), 'Продажи'[Прибыль] < 0)";
-t.Measures["Заказы убыт"].FormatString = "#,0";
+    t.Measures["Loss Making Orders"].Expression = "CALCULATE(DISTINCTCOUNT('Sales'[Order_ID]), 'Sales'[Profit] < 0)";
+t.Measures["Loss Making Orders"].FormatString = "#,0";
 
-Info("OK: 7 measures on Продажи");
+Info("OK: 7 measures on Sales");
