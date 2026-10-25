@@ -1,0 +1,21 @@
+// Paste ONE measure at a time: Data → Продажи → New measure.
+// Names differ from column names (Power BI rule).
+
+Сумма выручки = SUM('Продажи'[Выручка])
+
+Сумма прибыли = SUM('Продажи'[Прибыль])
+
+Затраты на логистику = SUM('Продажи'[Стоимость доставки])
+
+Рентабельность = DIVIDE([Сумма прибыли], [Сумма выручки], 0)
+// After create: Measure tools → Format → Percentage
+
+АКБ = DISTINCTCOUNT('Продажи'[Покупатель])
+
+Средний чек = DIVIDE([Сумма выручки], DISTINCTCOUNT('Продажи'[Order_ID]), 0)
+
+Заказы убыт =
+CALCULATE(
+    DISTINCTCOUNT('Продажи'[Order_ID]),
+    'Продажи'[Прибыль] < 0
+)

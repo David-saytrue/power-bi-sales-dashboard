@@ -1,0 +1,14 @@
+.env
+.env.*
+*.pem
+*credentials*
+.DS_Store
+Thumbs.db
+.vscode/
+.idea/
+*.log
+*.tmp
+_pbix_*/
+_orig_cards/
+*.zip
+test_task_1*.pbix
